@@ -43,11 +43,16 @@ abstract class BaseFileProvider extends BaseProvider implements FileProviderInte
 
     protected $metadata;
 
-    /**
-     * @param string                   $name
-     * @param MetadataBuilderInterface $metadata
-     */
-    public function __construct($name, Filesystem $filesystem, CDNInterface $cdn, GeneratorInterface $pathGenerator, ThumbnailInterface $thumbnail, array $allowedExtensions = [], array $allowedMimeTypes = [], ?MetadataBuilderInterface $metadata = null)
+    public function __construct(
+        string $name,
+        Filesystem $filesystem,
+        CDNInterface $cdn,
+        GeneratorInterface $pathGenerator,
+        ThumbnailInterface $thumbnail,
+        array $allowedExtensions = [],
+        array $allowedMimeTypes = [],
+        ?MetadataBuilderInterface $metadata = null
+    )
     {
         parent::__construct($name, $filesystem, $cdn, $pathGenerator, $thumbnail);
 

@@ -68,7 +68,7 @@ class VimeoProviderTest extends AbstractProviderTest
 
         $metadata = $this->createMock(MetadataBuilderInterface::class);
 
-        $provider = new VimeoProvider('vimeo', $filesystem, $cdn, $generator, $thumbnail, $client, $metadata, $requestFactory);
+        $provider = new VimeoProvider('vimeo', $filesystem, $cdn, $generator, $thumbnail, $client, $requestFactory, $metadata);
         $provider->setResizer($resizer);
 
         return $provider;
@@ -205,10 +205,10 @@ class VimeoProviderTest extends AbstractProviderTest
         $response = new Response();
         $response->setContent(file_get_contents(__DIR__.'/../Fixtures/valid_vimeo.txt'));
 
-        $browser = $this->createMock(Browser::class);
-        $browser->expects($this->once())->method('call')->will($this->throwException(new \RuntimeException('First error on get', 12)));
+        $client = $this->createMock(ClientInterface::class);
+        $client->expects($this->once())->method('sendRequest')->will($this->throwException(new \RuntimeException('First error on get', 12)));
 
-        $provider = $this->getProvider($browser);
+        $provider = $this->getProvider($client);
 
         $provider->addFormat('big', ['width' => 200, 'height' => 100, 'constraint' => true]);
 

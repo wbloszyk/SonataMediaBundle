@@ -32,6 +32,7 @@ use Sonata\MediaBundle\Provider\MediaProviderInterface;
 use Sonata\MediaBundle\Resizer\ResizerInterface;
 use Sonata\MediaBundle\Tests\Entity\Media;
 use Sonata\MediaBundle\Thumbnail\FormatThumbnail;
+use Symfony\Component\HttpClient\Psr18Client;
 
 class DailyMotionProviderTest extends AbstractProviderTest
 {
@@ -68,7 +69,7 @@ class DailyMotionProviderTest extends AbstractProviderTest
 
         $metadata = $this->createMock(MetadataBuilderInterface::class);
 
-        $provider = new DailyMotionProvider('file', $filesystem, $cdn, $generator, $thumbnail, $client, $metadata, $requestFactory);
+        $provider = new DailyMotionProvider('file', $filesystem, $cdn, $generator, $thumbnail, $client, $requestFactory, $metadata);
         $provider->setResizer($resizer);
 
         return $provider;
@@ -200,10 +201,10 @@ class DailyMotionProviderTest extends AbstractProviderTest
         $response = new Response();
         $response->setContent(file_get_contents(__DIR__.'/../Fixtures/valid_dailymotion.txt'));
 
-        $browser = $this->createMock(Browser::class);
-        $browser->expects($this->once())->method('call')->will($this->throwException(new \RuntimeException('First error on get', 12)));
+        $client = $this->createMock(ClientInterface::class);
+        $client->expects($this->once())->method('sendRequest')->will($this->throwException(new \RuntimeException('First error on get', 12)));
 
-        $provider = $this->getProvider($browser);
+        $provider = $this->getProvider($client);
 
         $provider->addFormat('big', ['width' => 200, 'height' => 100, 'constraint' => true]);
 
