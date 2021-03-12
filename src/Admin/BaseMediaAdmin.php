@@ -17,6 +17,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Sonata\AdminBundle\Object\MetadataInterface;
 use Sonata\BlockBundle\Meta\Metadata;
 use Sonata\MediaBundle\Form\DataTransformer\ProviderDataTransformer;
 use Sonata\MediaBundle\Model\CategoryManagerInterface;
@@ -67,7 +68,7 @@ abstract class BaseMediaAdmin extends AbstractAdmin
         return $this->pool;
     }
 
-    public function getObjectMetadata($object)
+    public function getObjectMetadata(object $object): MetadataInterface
     {
         $provider = $this->pool->getProvider($object->getProviderName());
 
@@ -76,7 +77,7 @@ abstract class BaseMediaAdmin extends AbstractAdmin
             $provider->getFormatName($object, MediaProviderInterface::FORMAT_ADMIN)
         );
 
-        return new Metadata($object->getName(), $object->getDescription(), $url);
+        return new \Sonata\AdminBundle\Object\Metadata($object->getName(), $object->getDescription(), $url);
     }
 
     protected function configurePersistentParameters(): array

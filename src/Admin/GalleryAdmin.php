@@ -52,7 +52,7 @@ class GalleryAdmin extends AbstractAdmin
         $gallery->setContext($parameters['context']);
     }
 
-    public function postUpdate($gallery)
+    public function postUpdate($gallery): void
     {
         $gallery->reorderGalleryItems();
     }

@@ -39,7 +39,9 @@ class MediaAdmin extends Admin
             ->add('enabled')
             ->add('context', null, [
                 'show_filter' => true !== $this->getPersistentParameter('hide_context'),
-            ], ChoiceType::class, $options);
+                'field_options' => $options,
+                'field_type' => ChoiceType::class,
+            ]);
 
         if (null !== $this->categoryManager) {
             $datagridMapper->add('category', null, ['show_filter' => false]);
@@ -53,7 +55,7 @@ class MediaAdmin extends Admin
 
         $providers = [];
 
-        $providerNames = (array) $this->pool->getProviderNamesByContext($this->getPersistentParameter('context', $this->pool->getDefaultContext()));
+        $providerNames = (array) $this->pool->getProviderNamesByContext($this->getPersistentParameter('context'));
         foreach ($providerNames as $name) {
             $providers[$name] = $name;
         }
