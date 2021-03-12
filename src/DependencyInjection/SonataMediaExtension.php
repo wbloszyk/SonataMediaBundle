@@ -179,7 +179,7 @@ class SonataMediaExtension extends Extension implements PrependExtensionInterfac
             ->replaceArgument(6, $config['providers']['file']['allowed_mime_types'])
         ;
 
-        $container->getDefinition('sonata.media.provider.youtube')->replaceArgument(7, $config['providers']['youtube']['html5']);
+        $container->getDefinition('sonata.media.provider.youtube')->replaceArgument(8, $config['providers']['youtube']['html5']);
     }
 
     public function configureParameterClass(ContainerBuilder $container, array $config): void
