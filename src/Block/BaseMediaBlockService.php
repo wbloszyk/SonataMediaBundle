@@ -14,16 +14,16 @@ declare(strict_types=1);
 namespace Sonata\MediaBundle\Block;
 
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 use Sonata\BlockBundle\Block\BlockContextInterface;
 use Sonata\BlockBundle\Block\Service\AbstractBlockService;
+use Sonata\BlockBundle\Block\Service\EditableBlockService;
+use Sonata\BlockBundle\Form\Mapper\FormMapper;
 use Sonata\BlockBundle\Model\BlockInterface;
 use Sonata\Doctrine\Model\ManagerInterface;
 use Sonata\MediaBundle\Admin\BaseMediaAdmin;
 use Sonata\MediaBundle\Model\MediaInterface;
 use Sonata\MediaBundle\Provider\Pool;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +32,7 @@ use Twig\Environment;
 /**
  * @author Thomas Rabaix <thomas.rabaix@sonata-project.org>
  */
-class BaseMediaBlockService extends AbstractBlockService
+abstract class BaseMediaBlockService extends AbstractBlockService implements EditableBlockService
 {
     /**
      * @var BaseMediaAdmin
@@ -49,18 +49,12 @@ class BaseMediaBlockService extends AbstractBlockService
      */
     private $container;
 
-    /**
-     * NEXT_MAJOR: Remove `$templating` argument.
-     *
-     * @param Environment|string $twigOrName
-     */
     public function __construct(
-        $twigOrName,
-        ?EngineInterface $templating,
+        Environment $twig,
         ContainerInterface $container,
         ManagerInterface $mediaManager
     ) {
-        parent::__construct($twigOrName, $templating);
+        parent::__construct($twig);
 
         $this->mediaManager = $mediaManager;
         $this->container = $container;
@@ -86,7 +80,7 @@ class BaseMediaBlockService extends AbstractBlockService
         return $this->mediaAdmin;
     }
 
-    public function execute(BlockContextInterface $blockContext, ?Response $response = null)
+    public function execute(BlockContextInterface $blockContext, ?Response $response = null): Response
     {
         // make sure we have a valid format
         $media = $blockContext->getBlock()->getSetting('mediaId');
@@ -126,15 +120,9 @@ class BaseMediaBlockService extends AbstractBlockService
         $block->setSetting('mediaId', \is_object($block->getSetting('mediaId')) ? $block->getSetting('mediaId')->getId() : null);
     }
 
-    /**
-     * NEXT_MAJOR: Remove this method.
-     *
-     * @deprecated since sonata-project/media-bundle 3.25, to be removed in 4.0. You should use
-     *             `Sonata\BlockBundle\Block\Service\EditableBlockService` interface instead.
-     */
-    public function buildCreateForm(FormMapper $formMapper, BlockInterface $block)
+    public function configureCreateForm(FormMapper $formMapper, BlockInterface $block): void
     {
-        $this->buildEditForm($formMapper, $block);
+        $this->configureEditForm($formMapper, $block);
     }
 
     /**

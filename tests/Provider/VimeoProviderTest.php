@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\MediaBundle\Tests\Provider;
 
-use Buzz\Browser;
 use Buzz\Message\Response;
 use Gaufrette\Adapter;
 use Gaufrette\File;

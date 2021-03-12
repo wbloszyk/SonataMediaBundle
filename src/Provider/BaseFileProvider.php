@@ -52,8 +52,7 @@ abstract class BaseFileProvider extends BaseProvider implements FileProviderInte
         array $allowedExtensions = [],
         array $allowedMimeTypes = [],
         ?MetadataBuilderInterface $metadata = null
-    )
-    {
+    ) {
         parent::__construct($name, $filesystem, $cdn, $pathGenerator, $thumbnail);
 
         $this->allowedExtensions = $allowedExtensions;

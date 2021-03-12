@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\MediaBundle\Tests\Provider;
 
-use Buzz\Browser;
 use Buzz\Message\Response;
 use Gaufrette\Adapter;
 use Gaufrette\File;
@@ -32,7 +31,6 @@ use Sonata\MediaBundle\Provider\MediaProviderInterface;
 use Sonata\MediaBundle\Resizer\ResizerInterface;
 use Sonata\MediaBundle\Tests\Entity\Media;
 use Sonata\MediaBundle\Thumbnail\FormatThumbnail;
-use Symfony\Component\HttpClient\Psr18Client;
 
 class DailyMotionProviderTest extends AbstractProviderTest
 {

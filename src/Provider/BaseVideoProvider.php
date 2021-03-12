@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Sonata\MediaBundle\Provider;
 
-use Buzz\Browser;
 use Gaufrette\Filesystem;
 use Imagine\Image\Box;
 use Psr\Http\Client\ClientInterface;
@@ -162,8 +161,6 @@ abstract class BaseVideoProvider extends BaseProvider
 
     /**
      * Get provider reference url.
-     *
-     * @param MediaInterface $media
      *
      * @return string
      */
